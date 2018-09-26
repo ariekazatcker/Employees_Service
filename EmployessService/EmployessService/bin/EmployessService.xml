@@ -1,0 +1,313 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>EmployessService</name>
+    </assembly>
+    <members>
+        <member name="T:EmployessService.BasicAuthenticationAttribute">
+            <summary>
+            Implementing basic user:password authentication
+            </summary>
+        </member>
+        <member name="M:EmployessService.BasicAuthenticationAttribute.OnAuthorization(System.Web.Http.Controllers.HttpActionContext)">
+            <summary>
+            
+            </summary>
+            <param name="actionContext"></param>
+        </member>
+        <member name="T:EmployessService.EmployeeScurity">
+            <summary>
+            Providing employees security services
+            </summary>
+        </member>
+        <member name="M:EmployessService.EmployeeScurity.AuthenticateLogin(System.String,System.String)">
+            <summary>
+            Authenticating logged in user, verifying that match Employee Service credentials.  
+            </summary>
+            <param name="user">Logged in user</param>
+            <param name="password">Logged in password</param>
+            <returns>'true' if logged in credentials match Employees Service credentials and 'false' otherwise</returns>
+        </member>
+        <member name="M:EmployessService.EmployeeScurity.AuthenticateUser(System.String)">
+            <summary>
+            Authenticating logged in user name
+            </summary>
+            <param name="username">Logged in user</param>
+            <returns>'true' if logged in user match Employees Service user and 'false' otherwise</returns>
+        </member>
+        <member name="T:EmployessService.DataSources.DSCommon">
+            <summary>
+            This class provide generalized services for data sources.
+            </summary>
+        </member>
+        <member name="M:EmployessService.DataSources.DSCommon.SetEmployeeInsertCommandForRelationalDB(System.Data.Common.DbCommand,EmployeesService.Models.EmployeeInfo)">
+            <summary>
+            This method sets the sql command text for creating new employee
+            </summary>
+            <param name="command">sql command object to update</param>
+            <param name="employee">new employee info </param>
+        </member>
+        <member name="M:EmployessService.DataSources.DSCommon.SetEmployeeUpdateCommandForRelationalDB(System.Data.Common.DbCommand,EmployeesService.Models.EmployeeInfo)">
+            <summary>
+            This method sets the sql command text for creating existent employee
+            </summary>
+            <param name="command">sql command object to update</param>
+            <param name="employee">existent employee info</param>
+        </member>
+        <member name="M:EmployessService.DataSources.DSCommon.SetEmployeeDeleteCommandForRelationalDB(System.Data.Common.DbCommand,System.Guid)">
+            <summary>
+            set the command text for employee delete command
+            </summary>
+            <param name="command">sql command object to update</param>
+            <param name="id">Employee ID</param>
+        </member>
+        <member name="M:EmployessService.DataSources.DSCommon.GetAllEmployees(System.Data.SQLite.SQLiteConnection)">
+            <summary>
+            This method retrieves the list of all active employees
+            </summary>
+            <param name="connection">the SQlite connection used</param>
+            <returns></returns>
+        </member>
+        <member name="T:EmployessService.DataSources.DSTypes">
+            <summary>
+            Represents the different repository types that may serve as the external repository for the Employees
+            </summary>
+        </member>
+        <member name="T:EmployessService.DataSources.DsImpl.SQLite">
+            <summary>
+            This class implements IDataSource for SQLite (embedded relational database).
+            </summary>
+        </member>
+        <member name="M:EmployessService.DataSources.DsImpl.SQLite.Connect(System.String)">
+            <summary>
+            Connecting to the database.
+            </summary>
+            <param name="connectionString">Connection string for connecting to the database</param>
+        </member>
+        <member name="M:EmployessService.DataSources.DsImpl.SQLite.GetAllEmployees">
+            <summary>
+            Retreiving all Active employees
+            </summary>
+            <returns> List of all active employees.</returns>
+        </member>
+        <member name="M:EmployessService.DataSources.DsImpl.SQLite.CreateOrUpdateEmployee(EmployeesService.Models.EmployeeInfo,System.Boolean)">
+            <summary>
+            Creating new employee or updating the information for existing employee.
+            </summary>
+            <param name="employee">employee info</param>
+            <param name="create">'true' to create or 'false' to update</param>
+        </member>
+        <member name="M:EmployessService.DataSources.DsImpl.SQLite.DeleteEmployee(System.Guid)">
+            <summary>
+            Deleting (setting to inactive) employee from data source 
+            </summary>
+            <param name="id">Employee ID to delete</param>
+        </member>
+        <member name="M:EmployessService.DataSources.DsImpl.SQLite.CleanDs">
+            <summary>
+            This method cleans the DS and starts fresh (mainly for test purposes);
+            </summary>
+        </member>
+        <member name="T:EmployessService.DataSources.IDataSource">
+            <summary>
+              This interface need being implemented for any external data source to ingest employees info from upon server startup
+            </summary>
+        </member>
+        <member name="M:EmployessService.DataSources.IDataSource.Connect(System.String)">
+            <summary>
+            Connecting to the database.
+            </summary>
+            <param name="connectionString">Connection string for connecting to the database</param>
+        </member>
+        <member name="M:EmployessService.DataSources.IDataSource.GetAllEmployees">
+            <summary>
+            Retreiving all Active employees
+            </summary>
+            <returns> List of all active employees.</returns>
+        </member>
+        <member name="M:EmployessService.DataSources.IDataSource.CreateOrUpdateEmployee(EmployeesService.Models.EmployeeInfo,System.Boolean)">
+            <summary>
+            Creating new employee or updating the information for existing employee.
+            </summary>
+            <param name="employee">employee info</param>
+            <param name="create">'true' to create or 'false' to update</param>
+        </member>
+        <member name="M:EmployessService.DataSources.IDataSource.DeleteEmployee(System.Guid)">
+            <summary>
+            Deleting (setting to inactive) employee from data source 
+            </summary>
+            <param name="id">Employee ID to delete</param>
+        </member>
+        <member name="M:EmployessService.DataSources.IDataSource.CleanDs">
+            <summary>
+            This method cleans the DS and starts fresh (mainly for test purposes);
+            </summary>
+        </member>
+        <member name="T:EmployessService.EmployeesDataManager">
+            <summary>
+            This class provides services for managing Employees Data Repository.
+            </summary>
+        </member>
+        <member name="M:EmployessService.EmployeesDataManager.Initate">
+            <summary>
+            This method is called on service startup and will do the foloowing:
+            1) Read the configuration for the external data-source and data credentials.
+            2) Create the service internal Employees repository, in case it is not exist.
+            3) Clear the internal Empoyess repository, in case it holds data from previous run.
+            4) Connects to the external repository (data source), reads the employees data from there and updates the internal repository.
+            </summary>
+        </member>
+        <member name="M:EmployessService.EmployeesDataManager.InitEmployeeManagerTestEnvironment(System.String,System.String,System.Collections.Generic.IList{EmployeesService.Models.EmployeeInfo})">
+            <summary>
+            
+            </summary>
+            <param name="ExtDsTestName"></param>
+            <param name="internalDbTestName"></param>
+            <param name="testEmployeesList"></param>
+        </member>
+        <member name="M:EmployessService.EmployeesDataManager.ExistEmployee(System.Guid)">
+            <summary>
+            This service checks if employee with particular ID exist.
+            </summary>
+            <param name="id">Employee ID to check</param>
+            <returns>'true' if employee is in the repository and Active and 'false' otherwise.</returns>
+        </member>
+        <member name="M:EmployessService.EmployeesDataManager.ValidateExistingEmployeeData(System.String@,EmployeesService.Models.EmployeeInfo)">
+            <summary>
+            Validates whether the information for updating existing employee is complete.
+            </summary>
+            <param name="validationError">Error messagte in case that the data is not complete</param>
+            <param name="employee">employee info to validate</param>
+            <returns></returns>
+        </member>
+        <member name="M:EmployessService.EmployeesDataManager.ValidateNewEmployeeData(System.String@,EmployeesService.Models.EmployeeInfo)">
+            <summary>
+            Validates whether the information for adding new employee is complete.
+            </summary>
+            <param name="validationError">Error messagte in case that the data is not complete</param>
+            <param name="employee">Employee info</param>
+            <returns></returns>
+        </member>
+        <member name="M:EmployessService.EmployeesDataManager.GetAllEmployees">
+            <summary>
+            This method returns all active employees in the repository.
+            </summary>
+            <returns>LIst of all active employees in the repository</returns>
+        </member>
+        <member name="M:EmployessService.EmployeesDataManager.GetEmployeeById(System.Guid)">
+            <summary>
+            This method returns employee information for an employee ID.
+            </summary>
+            <param name="id">Employee ID to retrieve</param>
+            <returns>employee information if exist or null otherwise</returns>
+        </member>
+        <member name="M:EmployessService.EmployeesDataManager.DeleteEmployee(System.Guid)">
+            <summary>
+            This method set an employees status to Inactive (deleting employee) and updating the external repository as well.
+            </summary>
+            <param name="id">Employee ID to delete</param>
+        </member>
+        <member name="M:EmployessService.EmployeesDataManager.CreateNewEmployee(EmployeesService.Models.EmployeeInfo)">
+            <summary>
+            This method creates a new employee in the service repository and updates the external repository as well
+            </summary>
+            <param name="employee">New employee info to create</param>
+        </member>
+        <member name="M:EmployessService.EmployeesDataManager.UpdateEmployee(EmployeesService.Models.EmployeeInfo)">
+            <summary>
+            This method updates existent employee in the service repository and updates the external repository as well
+            </summary>
+            <param name="employee"></param>
+        </member>
+        <member name="T:EmployessService.Controllers.EmployeesController">
+            <summary>
+            This is the controller for exposing Employees Service methods
+            </summary>
+        </member>
+        <member name="M:EmployessService.Controllers.EmployeesController.GetAllEmployees">
+            <summary>
+            This service provides a list of all Active employees
+            </summary>
+            <returns>list of all Active employees</returns>
+        </member>
+        <member name="M:EmployessService.Controllers.EmployeesController.GetEmployeeById(System.Guid)">
+            <summary>
+            This service returns employee data by id
+            </summary>
+            <param name="id">Unique identifier represents the employee</param>
+            <returns>employee data by employee ID</returns>
+        </member>
+        <member name="M:EmployessService.Controllers.EmployeesController.CreateNewEmployee(EmployeesService.Models.EmployeeInfo)">
+            <summary>
+            This service creates a new employee
+            </summary>
+            <param name="employeeInfo">info for adding new employee</param>
+        </member>
+        <member name="M:EmployessService.Controllers.EmployeesController.UpdateEmployee(EmployeesService.Models.EmployeeInfo)">
+            <summary>
+            This service updates existing employee. 
+            </summary>
+            <param name="employeeInfo">employee info to update</param>
+        </member>
+        <member name="M:EmployessService.Controllers.EmployeesController.DeleteEmployee(System.Guid)">
+            <summary>
+            This service deletes (mark as Inactive) the an existing employee.
+            Inactive employee cannot be retrieved through GetAllEmployees or GetEmployeeById.
+            </summary>
+            <param name="id">Employee ID to delete</param>
+        </member>
+        <member name="T:EmployeesService.Models.EmployeeInfo">
+            <summary>
+            The data model represting employee data
+            </summary>
+        </member>
+        <member name="P:EmployeesService.Models.EmployeeInfo.ID">
+            <summary>
+            unique identifier for an employee
+            </summary>
+        </member>
+        <member name="P:EmployeesService.Models.EmployeeInfo.FirstName">
+            <summary>
+            Employee first name
+            </summary>
+        </member>
+        <member name="P:EmployeesService.Models.EmployeeInfo.MiddleInitial">
+            <summary>
+            Employee middle initial
+            </summary>
+        </member>
+        <member name="P:EmployeesService.Models.EmployeeInfo.LastName">
+            <summary>
+            Employee last name
+            </summary>
+        </member>
+        <member name="P:EmployeesService.Models.EmployeeInfo.DateOfBirth">
+            <summary>
+            Employee date of birth
+            </summary>
+        </member>
+        <member name="P:EmployeesService.Models.EmployeeInfo.DateOfEmployment">
+            <summary>
+            Employee date of employment 
+            </summary>
+        </member>
+        <member name="P:EmployeesService.Models.EmployeeInfo.Active">
+            <summary>
+            Determines whether employee is active or inactive (deleted)
+            </summary>
+        </member>
+        <member name="M:EmployeesService.Models.EmployeeInfo.ToString">
+            <summary>
+            overriding the ToString method for the Employee model
+            </summary>
+            <returns>string represents the EMployee information</returns>
+        </member>
+        <member name="M:EmployeesService.Models.EmployeeInfo.Equals(System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="employee"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
